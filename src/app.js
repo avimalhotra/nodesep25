@@ -1,57 +1,56 @@
-import os from 'node:os';                          // from node
-import fs from 'node:fs';                          // from node
+import path from "node:path";
+import fs from "node:fs";
+import { fileURLToPath } from 'url';
+import { dirname } from 'node:path';
+import { EventEmitter } from 'node:events';
+const emitter=new EventEmitter();
 
 
-// console.log(os.arch() );
-// console.log( os.cpus().length );
-// console.log( os.cpus()[0]);
-// console.log( os.totalmem()/(1024*1024*1024) );
-// console.log( os.freemem()/(1024*1024*1024) );
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = dirname(__filename);
 
-// console.log( os.networkInterfaces() );
-// console.log( os.platform() );
-// console.log( os.type() );
-// console.log( os.uptime()/(60/60/24) );
-// console.log( os.userInfo() );
+// console.log( path );
+
+// console.log(path.normalize('./src'));
+// console.log(path.normalize('src//retina'));
+// console.log(path.resolve('src/app'));
+// console.log(path.resolve(__filename));
+// console.log(path.resolve(__dirname));
 
 
-// const file=fs.readFileSync('src/data.txt','utf-8');
-// console.log(file);
+// fs.readFile(path.resolve('src/data.txt'),'utf-8',(err,res)=>{
+//      if(err){ console.warn(err);}
+//      else{ console.log(res) }
+// });
 
- fs.readFile('src/data.txt',{encoding:'utf8'},(err,data)=>{
-     if(err){
-          console.warn(err);
-     }
-     else{
-          console.log(data);
-     }
- });
 
-//  fs.stat('src/data.txt', (err, stats) => {
-//     if (err) {
-//       console.error(err)
-//     }
-//     else{
-//         console.log(stats.isFile());      // true
-//         console.log(stats.isDirectory());      // false
-//         console.log(stats.size);             // 
-//     }
-//   });
+// fs.ReadStream(path.resolve("src/data.txt")).on("open",()=>{
+//      console.log("file open");
+// });
 
-// fs.writeFile('src/data1.txt','hello, i am node 2','utf8',(err)=>{
-//      if(err){ console.warn(err) }
+emitter.on("start",(res)=>{
+     console.log(`event 1 done with ${res}`);
+});
+emitter.on("start",(res)=>{
+     console.log(`event 2 done with ${res}`);
+});
+
+// emitter.on("done",(x)=>{
+//     console.log(`done`);
+//     x.handled=false;
 // })
 
-// fs.appendFile('src/data1.txt',`hello, its ${new Date().getTime()} \n`,'utf8',(err)=>{
-//      if(err){ console.warn(err) }
+// emitter.on("done",(x)=>{
+//     if(x.handled){
+//         console.log(`already done`);
+//     }
 // });
 
 
-// fs.unlink("src/data1.txt",(err)=>{
-//      if(err){
-//           console.warn(err)
-//      }
-//      else{
-//           console.log("file deleted");
-//      }
+// emitter.once("done",(x)=>{
+//      console.log(`done`);
 // });
+
+// emitter.emit("start",'avi');
+// emitter.emit("done",);
+// emitter.emit("done",);
