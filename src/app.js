@@ -1,56 +1,32 @@
-import path from "node:path";
-import fs from "node:fs";
-import { fileURLToPath } from 'url';
-import { dirname } from 'node:path';
-import { EventEmitter } from 'node:events';
-const emitter=new EventEmitter();
+import http from "node:http";
+import os from "node:os";
 
+const ip='127.0.0.1';
+const port=process.env.PORT || 8080;
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
+const server=http.createServer((req,res)=>{
+     
+     // res.statusCode=200;
+     // res.setHeader('Content-Type','text/html');
+     // res.writeHead(200,{'Content-Type':'text/html'});
+     res.writeHead(200, {'Content-Type':'text/html; charset=utf-8'} );
+     res.encoding = 'utf8';
 
-// console.log( path );
-
-// console.log(path.normalize('./src'));
-// console.log(path.normalize('src//retina'));
-// console.log(path.resolve('src/app'));
-// console.log(path.resolve(__filename));
-// console.log(path.resolve(__dirname));
-
-
-// fs.readFile(path.resolve('src/data.txt'),'utf-8',(err,res)=>{
-//      if(err){ console.warn(err);}
-//      else{ console.log(res) }
-// });
-
-
-// fs.ReadStream(path.resolve("src/data.txt")).on("open",()=>{
-//      console.log("file open");
-// });
-
-emitter.on("start",(res)=>{
-     console.log(`event 1 done with ${res}`);
-});
-emitter.on("start",(res)=>{
-     console.log(`event 2 done with ${res}`);
+     res.write('<h1>Hello Node JS 👍 </h1>');
+     res.write(`<p>${new Date().toLocaleString()}</p>`);
+     res.write(`<p>Threads: ${os.cpus().length}</p>`);
+     res.write(`<p>CPU: ${os.cpus()[0].model}</p>`);
+     res.write(`<p>Clock Speed: ${os.cpus()[0].speed}</p>`);
+     res.write(`<p>Free Ram: ${os.freemem()/(1024*1024*1024)}</p>`);
+     res.write(`<p>Total Ram: ${os.totalmem()/(1024*1024*1024)}</p>`);
+     res.write(`<p>hello <b>there</b> </p>`);
+     // res.write(req.url);
+     // res.write(req.method);
+     // res.write(req.headers.host);
+     res.end();
 });
 
-// emitter.on("done",(x)=>{
-//     console.log(`done`);
-//     x.handled=false;
-// })
 
-// emitter.on("done",(x)=>{
-//     if(x.handled){
-//         console.log(`already done`);
-//     }
-// });
-
-
-// emitter.once("done",(x)=>{
-//      console.log(`done`);
-// });
-
-// emitter.emit("start",'avi');
-// emitter.emit("done",);
-// emitter.emit("done",);
+server.listen(3000,()=>{
+     console.log(`App running at http://${ip}:${port}`);
+});
