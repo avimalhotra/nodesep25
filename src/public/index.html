@@ -8,19 +8,32 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="container-xxl">
+  <div class="container-xl">
     <h1>Hello Bootstrap</h1>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
+    
+    <h2>Post</h2>
+     <form action="/send" method="post">
+        
+        <label class="form-label">Login: <input type="search" required class="form-control" name="login"></label>
+        <label class="form-label">Password: <input type="password" required class="form-control" name="password"></label>
+        <button class="btn btn-primary">Login</button>
+    </form> 
 
-    <!-- <form action="/send" method="post">
-        <label>Search: <input type="search" name="query"></label> <button>Send</button>
-    </form> -->
-
-    <form action="/search" method="get">
-        <label>Search: <input type="search" name="query"></label>
-        <label>Used: <input type="checkbox" name="used" value="yes"></label>
-        <button>Send</button>
+    <h2>Get</h2>
+    <form action="/search" method="get" class="row align-items-center">
+        <div class="col-auto">
+           <label class="form-label">Search: <input type="search" class="form-control" name="query"></label>
+        </div>
+        <div class="col-auto">
+          <label class="form-label">Used: <input type="checkbox" class="form-check-input" name="used" value="yes"></label>
+        </div>
+        <div class="col-auto">
+           <button class="btn btn-primary">Send</button>
+        </div>
+       
+       
     </form>
     
   </div>

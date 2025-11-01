@@ -21,6 +21,7 @@
   "homepage": "https://github.com/avimalhotra/nodesep25#readme",
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "cookie-parser": "^1.4.7",
     "express": "^5.1.0"
   },
   "devDependencies": {
