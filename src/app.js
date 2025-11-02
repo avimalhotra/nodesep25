@@ -4,6 +4,8 @@ import admin from './routes/admin.js';
 import products from './routes/products.js';
 import search from "./controller/search.js";
 import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import parseurl from 'parseurl';
 
 const app=express();
 const port=process.env.PORT || 8081;
@@ -17,14 +19,29 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cookieParser('secret'));
 
+app.set('trust proxy', 1); 
+app.use(session({
+    secret:"session",
+    resave:false,
+    saveUninitialized:true,
+    cookie:{secure:false, maxAge:180000}
+}));
+
 
 app.use((req,res,next)=>{
      // console.log(`App starts at ${new Date().toLocaleString()}`);
      // console.log( req.url );
      // console.log( req.url );
      //  console.log(req.cookies);
-     res.cookie("name","avi", {maxAge:86400, httpOnly: true, signed: true});
-     console.log(req.signedCookies);
+     // res.cookie("name","avi", {maxAge:86400, httpOnly: true, signed: true});
+     // console.log(req.signedCookies);
+     // console.log(req.signedCookies.name);
+     if (!req.session.views) { req.session.views = {} }
+
+     const  pathname = parseurl(req).pathname;
+
+     req.session.views[pathname] = (req.session.views[pathname] || 0) + 1
+
      next();
 });
 
@@ -33,6 +50,7 @@ app.get('/',(req,res)=>{
     
      res.setHeader('Content-Type','text/html');
      res.status(200).send(`<h1>Hello Express</h1>`);
+     // res.status(200).send(`<h1>${req.sessionID}</h1> <p>page Views: ${req.session.views['/']}</p>`);
 });
 
 function auth(req,res,next){
@@ -50,7 +68,7 @@ app.get('/login',auth,(req,res)=>{
      res.status(200).send('Login Page');
 });
 app.get('/api',(req,res)=>{
-     res.setHeader('Content-Type','text/html');
+     // res.header('Access-Control-Allow-Origin',"*");
      res.status(200).json([{name:"aaa", id:22}]);
 });
 

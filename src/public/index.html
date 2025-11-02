@@ -38,5 +38,14 @@
     
   </div>
 <script src="js/bootstrap.bundle.min.js"></script>
+<script>
+  "use strict";
+
+ 
+  fetch("/api").then(i=>i.json()).then(i=>console.log(i)).catch(e=>console.warn(e));
+
+  
+
+</script>
 </body>
 </html>
