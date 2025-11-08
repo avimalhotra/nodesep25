@@ -26,15 +26,20 @@
         <div class="col-auto">
            <label class="form-label">Search: <input type="search" class="form-control" name="query"></label>
         </div>
-        <div class="col-auto">
+        <!-- <div class="col-auto">
           <label class="form-label">Used: <input type="checkbox" class="form-check-input" name="used" value="yes"></label>
-        </div>
+        </div> -->
         <div class="col-auto">
            <button class="btn btn-primary">Send</button>
         </div>
-       
-       
     </form>
+    <ol class="searchlist"></ol>
+    <hr>
+    <form method="post" class="postdata">
+        <label class="form-label">Search: <input type="search" required class="form-control" name="query"></label>
+        <button class="btn btn-primary">Login</button>
+        <output></output>
+    </form> 
     
   </div>
 <script src="js/bootstrap.bundle.min.js"></script>
@@ -42,9 +47,34 @@
   "use strict";
 
  
-  fetch("/api").then(i=>i.json()).then(i=>console.log(i)).catch(e=>console.warn(e));
+  // fetch("/api").then(i=>i.json()).then(i=>console.log(i)).catch(e=>console.warn(e));
 
   
+  document.querySelector(`input[name="query"]`).addEventListener("input",function(){
+    const key=this.value;
+    document.querySelector(".searchlist").innerHTML="";
+    
+    if(key.length>=3){
+       fetch(`/api/search/${key}`,{method:"GET",cache:"no-cache"}).then(i=>i.json(i)).then(i=>{
+        // console.table(i);
+        i.forEach(elem=>{
+          document.querySelector(".searchlist").innerHTML+=`<li>${elem.name}</li>`;
+        })
+      }); 
+    }
+      
+  });
+
+
+  document.querySelector(`.postdata`).addEventListener("submit",function(e){
+    e.preventDefault();
+
+    const q=this.query.value;
+
+    fetch("/postdata",{method:"POST",body:JSON.stringify({query:q})}).then(i=>i.text()).then(i=>document.querySelector("output").innerHTML=i);
+    
+
+  })
 
 </script>
 </body>

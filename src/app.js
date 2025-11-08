@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'node:path';
 import admin from './routes/admin.js';
 import products from './routes/products.js';
+import api from './routes/api.js';
 import search from "./controller/search.js";
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -14,6 +15,7 @@ app.use(express.static(path.resolve('src/public')));
 app.use(express.static(path.resolve('node_modules/bootstrap/dist')));
 
 
+app.use(express.text());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -67,20 +69,18 @@ app.get('/login',auth,(req,res)=>{
      res.setHeader('Content-Type','text/html');
      res.status(200).send('Login Page');
 });
-app.get('/api',(req,res)=>{
-     // res.header('Access-Control-Allow-Origin',"*");
-     res.status(200).json([{name:"aaa", id:22}]);
-});
+
+// app.get('/api',(req,res)=>{
+//      // res.header('Access-Control-Allow-Origin',"*");
+//      res.status(200).json([{name:"aaa", id:22}]);
+// });
+
 
 app.get("/send",(req,res)=>{
      res.status(200).send(`Get data`);
 });
 
 app.post("/send",(req,res)=>{
-     console.log( req.body );
-
-     // res.status(200).send(req.body);
-
      if( req.body.login=="admin" && req.body.password=="1234"){
           res.status(200).send(`Welcome ${req.body.login}`);
      }
@@ -89,11 +89,17 @@ app.post("/send",(req,res)=>{
      }
 });
 
-app.get("/search",search);
+app.post("/postdata",(req,res)=>{
+     const q=req.body;     
+     res.status(200).send(JSON.parse(q));
+});
 
+
+app.get("/search",search);
 
 app.use("/admin",admin);
 app.use("/products",products);
+app.use("/api",api);
 
 
 /* wild card handler */
