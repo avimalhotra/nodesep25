@@ -3,16 +3,28 @@ import path from 'node:path';
 import admin from './routes/admin.js';
 import products from './routes/products.js';
 import api from './routes/api.js';
-import search from "./controller/search.js";
+import search from "./controller/search.js"
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import parseurl from 'parseurl';
+import multer from "multer";
+
 
 const app=express();
 const port=process.env.PORT || 8081;
 
 app.use(express.static(path.resolve('src/public')));
 app.use(express.static(path.resolve('node_modules/bootstrap/dist')));
+
+const storage=multer.diskStorage({
+     destination: function (req, file, cb) { cb(null, 'src/public/upload/')},
+     filename: function (req, file, cb) {
+     //  cb(null, file.originalname);                             // for original name 
+      cb(null, Date.now() + path.extname(file.originalname)); 
+
+    }
+})
+const upload=multer({storage:storage});
 
 
 app.use(express.text());
@@ -70,10 +82,6 @@ app.get('/login',auth,(req,res)=>{
      res.status(200).send('Login Page');
 });
 
-// app.get('/api',(req,res)=>{
-//      // res.header('Access-Control-Allow-Origin',"*");
-//      res.status(200).json([{name:"aaa", id:22}]);
-// });
 
 
 app.get("/send",(req,res)=>{
@@ -93,6 +101,12 @@ app.post("/postdata",(req,res)=>{
      const q=req.body;     
      res.status(200).send(JSON.parse(q));
 });
+
+app.post("/uploads",upload.single('resume'),(req,res)=>{
+     console.log( req.file );
+     // res.status(200).send("uploaded");
+     res.status(200).send(`Fil uploaded, size:${(req.file.size/1048576).toFixed(2)} MB, Name alloted: ${req.file.filename}`);
+})
 
 
 app.get("/search",search);
