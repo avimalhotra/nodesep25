@@ -12,48 +12,7 @@
     <h1>Hello Bootstrap</h1>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
-    
-    <h2>Post</h2>
-     <form action="/send" method="post">
-        
-        <label class="form-label">Login: <input type="search" required class="form-control" name="login"></label>
-        <label class="form-label">Password: <input type="password" required class="form-control" name="password"></label>
-        <button class="btn btn-primary">Login</button>
-    </form> 
-
-    <h2>Get</h2>
-    <form action="/search" method="get" class="row align-items-center">
-        <div class="col-auto">
-           <label class="form-label">Search: <input type="search" class="form-control" name="query"></label>
-        </div>
-        <!-- <div class="col-auto">
-          <label class="form-label">Used: <input type="checkbox" class="form-check-input" name="used" value="yes"></label>
-        </div> -->
-        <div class="col-auto">
-           <button class="btn btn-primary">Send</button>
-        </div>
-    </form>
-    <ol class="searchlist"></ol>
-    <hr>
-    <h2>Search using payload</h2>
-    <form method="post" class="postdata">
-        <label class="form-label">Search: <input type="search" required class="form-control" name="query"></label>
-        <button class="btn btn-primary">Login</button>
-        <output></output>
-    </form> 
-    <h2>Upload</h2>
-
-     <form action="/uploads" method="post" class="uploaddata row align-items-center" enctype="multipart/form-data">
-        <div class="col-auto">
-            <label class="form-label" for="resume">Upload</label>
-        </div>
-        <div class="col-auto">
-          <input class="form-control" multiple type="file" name="resume" id="resume" required accept=".pdf">
-        </div>
-        <div class="col-auto">
-          <button class="btn btn-primary">Upload</button>
-        </div>
-     </form>
+ 
 
     
   </div>
@@ -62,34 +21,6 @@
   "use strict";
 
  
-  // fetch("/api").then(i=>i.json()).then(i=>console.log(i)).catch(e=>console.warn(e));
-
-  
-  document.querySelector(`input[name="query"]`).addEventListener("input",function(){
-    const key=this.value;
-    document.querySelector(".searchlist").innerHTML="";
-    
-    if(key.length>=3){
-       fetch(`/api/search/${key}`,{method:"GET",cache:"no-cache"}).then(i=>i.json(i)).then(i=>{
-        // console.table(i);
-        i.forEach(elem=>{
-          document.querySelector(".searchlist").innerHTML+=`<li>${elem.name}</li>`;
-        })
-      }); 
-    }
-      
-  });
-
-
-  document.querySelector(`.postdata`).addEventListener("submit",function(e){
-    e.preventDefault();
-
-    const q=this.query.value;
-
-    fetch("/postdata",{method:"POST",body:JSON.stringify({query:q})}).then(i=>i.text()).then(i=>document.querySelector("output").innerHTML=i);
-    
-
-  })
 
 </script>
 </body>
