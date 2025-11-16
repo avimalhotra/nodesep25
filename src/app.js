@@ -8,6 +8,8 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import parseurl from 'parseurl';
 import multer from "multer";
+import ejs from 'ejs';
+
 
 
 const app=express();
@@ -15,6 +17,10 @@ const port=process.env.PORT || 8081;
 
 app.use(express.static(path.resolve('src/public')));
 app.use(express.static(path.resolve('node_modules/bootstrap/dist')));
+
+
+app.set('view engine', 'ejs');
+app.set('views', path.resolve('src/public') );
 
 const storage=multer.diskStorage({
      destination: function (req, file, cb) { cb(null, 'src/public/upload/')},
@@ -59,13 +65,20 @@ app.use((req,res,next)=>{
      next();
 });
 
+
 /* routing */
 app.get('/',(req,res)=>{
-    
      res.setHeader('Content-Type','text/html');
-     res.status(200).send(`<h1>Hello Express</h1>`);
+     // res.status(200).send(`<h1>Hello Express</h1>`);
      // res.status(200).send(`<h1>${req.sessionID}</h1> <p>page Views: ${req.session.views['/']}</p>`);
+     res.status(200).render('index',{name:"EJS",version:"3.1.10", car:{name:"swift", power:82}, cars:["swift","polo","baleno","brezza"]});
 });
+
+app.get('/about',(req,res)=>{
+     res.setHeader('Content-Type','text/html');
+     res.status(200).render('about',{name:"EJS",version:"3.1.10"});
+})
+
 
 function auth(req,res,next){
      const hours=new Date().getHours();

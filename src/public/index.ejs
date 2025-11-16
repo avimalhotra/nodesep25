@@ -9,11 +9,28 @@
 </head>
 <body>
   <div class="container-xl">
-    <h1>Hello Bootstrap</h1>
+     <%- include('header') %>
+     <%- include('nav') %>
+   <main>
+    <h2>Main</h2>
+     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo blanditiis culpa repudiandae? Nemo repudiandae consectetur laborum totam eveniet facilis sit tempora temporibus, a laudantium deleniti tempore soluta libero quod velit?</p>
- 
 
+   </main>
+    <h2>Car</h2>
+    <% if(car){ %>
+      <p>Name : <%= car.name %></p>
+      <p>Power :  <%= car.power %></p>
+    <% } %>
+
+    <h2>Cars</h2>
+    <ol>
+    <% cars.forEach(function(elem, ind){ %>
+      <li><%= elem %></li>
+    <% }) %>
+    </
+
+   <%- include('footer') %>
     
   </div>
 <script src="js/bootstrap.bundle.min.js"></script>
